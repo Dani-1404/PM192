@@ -1,65 +1,72 @@
-//zona 1: importaciones
-import { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert,  } from 'react-native';
+/* Zone 1: Importaciones */
+import { ImageBackground, StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import React, { useState, useEffect } from 'react';
 
-//zona 2: main(Ejecución)
+const FondoBienvenida = () => {
+  return (
+    <ImageBackground
+      source={require('./assets/fondo1.jpg')}
+      style={styles.fondo}
+    >
+      <View style={styles.contenido}>
+        <Text style={styles.titulo}>Este es el Splash Screen</Text>
+      </View>
+    </ImageBackground>
+  );
+};
+
+/* Zone 2: Main */
+
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true);
 
-  const [nombre, setNombre] = useState('');
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);  // Ocultar splash después de 5 segundos
+    }, 5000);
 
-  const mostrarAlerta = () => {
-    if (nombre.trim()=== ''){
-      Alert.alert('Error', 'Por favor escribe algo');
-      alert('Escribe algo');
-    }
-    else{
-      Alert.alert('Bienvenido ', ` Hola ${nombre} ,  bienvenido a nuestras app`);
-      alert('Hola ' + nombre + ' Bienvenido')
-    }
-    
-  }
+    return () => clearTimeout(timer); // Limpiar timer al desmontar
+  }, []);
 
   return (
-    <View style={styles.container}>
-
-      <Text style={styles.text}> Ingresa tu nombre </Text>
-      <TextInput 
-      style={styles.input} 
-      placeholder='Escribe tu nombre'
-      onChangeText={setNombre}
-      value={nombre}
-      >
-      </TextInput>
-
-      <Button title='Enviar' onPress={mostrarAlerta}></Button>
-      
-    </View>
+    <SafeAreaView style={styles.container}>
+      {showSplash ? (
+        <FondoBienvenida />
+      ) : (
+        <View style={styles.mainContent}>
+          <Text style={styles.mainText}>Pantalla principal</Text>
+        </View>
+      )}
+    </SafeAreaView>
   );
 }
 
-//Zona 3: Estilos
+/* Zone 3: Estilos */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    padding : 20,
+  },
+  fondo: {
+    flex: 1,
+  },
+  contenido: {
+    flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
-
-  //texto
-  text:{
-    marginBottom : 20,
-    fontSize : 18,
-    color : '#000',
-
+  titulo: {
+    fontSize: 28,
+    color: 'white',
+    fontWeight: 'bold',
   },
-  input : {
-    borderWidth : 1,
-    borderColor : '#ccc',
-    padding: 10,
-    marginBottom: 20,
-    borderRadius: 5,
-    backgroundColor : '#f9f9f9',
-    color : '#000',
-  },
+  mainContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  mainText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
 });
