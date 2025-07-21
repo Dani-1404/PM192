@@ -1,66 +1,97 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+  ScrollView,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function WelcomeScreen({ navigation }) {
+const WelcomeScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      <Image
-        source={require('../assets/poli-roomie.jpg')}
-        style={styles.logo}
-      />
-      <Text style={styles.title}>POLI ROOMIE</Text>
-
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.buttonText}>Iniciar Sesión</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[styles.button, styles.secondary]}
-        onPress={() => alert('Registrarse clicked')}
+    <SafeAreaView style={styles.safeArea}>
+      <ImageBackground
+        source={require('../assets/logo_fondo.jpeg')}
+        style={styles.background}
+        imageStyle={{ opacity: 0.07 }}
       >
-        <Text style={[styles.buttonText, styles.secondaryText]}>Registrarse</Text>
-      </TouchableOpacity>
-    </View>
+        <ScrollView contentContainerStyle={styles.container}>
+          <Text style={styles.title}>¡Bienvenido a Polirromies!</Text>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('Login')}
+          >
+            <Text style={styles.buttonText}>Iniciar Sesión</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.buttonSecondary}
+            onPress={() => navigation.navigate('Registro')}
+          >
+            <Text style={styles.buttonText}>Registrarse</Text>
+          </TouchableOpacity>
+
+          {/* ✅ BOTÓN NUEVO que lleva a ChatsScreen */}
+          <TouchableOpacity
+            style={styles.buttonChat}
+            onPress={() => navigation.navigate('Chats')}
+          >
+            <Text style={styles.buttonText}>Ir a mis chats</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </ImageBackground>
+    </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: '#e0f2f1',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    backgroundColor: '#001F54',
   },
-  logo: {
-    width: 180,
-    height: 180,
-    marginBottom: 30,
-    borderRadius: 90,
+  background: {
+    flex: 1,
+  },
+  container: {
+    padding: 20,
+    justifyContent: 'center',
+    flexGrow: 1,
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 40,
-    color: '#004d40',
+    color: '#fff',
+    marginBottom: 30,
+    textAlign: 'center',
   },
   button: {
-    backgroundColor: '#004d40',
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 30,
-    marginBottom: 16,
+    backgroundColor: '#B00020',
+    padding: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  buttonSecondary: {
+    backgroundColor: '#003366',
+    padding: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  buttonChat: {
+    backgroundColor: '#00897B',
+    padding: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 10,
   },
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
   },
-  secondary: {
-    backgroundColor: 'transparent',
-    borderWidth: 2,
-    borderColor: '#004d40',
-  },
-  secondaryText: {
-    color: '#004d40',
-  },
 });
+
+export default WelcomeScreen;

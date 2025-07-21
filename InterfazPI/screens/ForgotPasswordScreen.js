@@ -1,53 +1,97 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  ImageBackground,
+  Alert,
+  ScrollView,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function ForgotPasswordScreen({ navigation }) {
+const ForgotPasswordScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
 
-  const handleResetPassword = () => {
-    Alert.alert('Listo ', `Se envió un enlace de recuperación a: ${email}`);
+  const handleReset = () => {
+    if (!email) {
+      Alert.alert('Error', 'Introduce tu correo');
+      return;
+    }
+    Alert.alert('Listo', 'Se ha enviado un correo de recuperación');
     navigation.navigate('Login');
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Recuperar contraseña</Text>
-      <Text style={styles.subtitle}>Te enviaremos un enlace a tu correo</Text>
+    <SafeAreaView style={styles.safeArea}>
+      <ImageBackground
+        source={require('../assets/logo_fondo.jpeg')}
+        style={styles.background}
+        imageStyle={{ opacity: 0.07 }}
+      >
+        <ScrollView contentContainerStyle={styles.container}>
+          <Text style={styles.title}>Recuperar Contraseña</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Ingresa tu correo"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
+          <TextInput
+            placeholder="Correo electrónico"
+            placeholderTextColor="#ccc"
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
 
-      <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
-        <Text style={styles.buttonText}>ENVIAR</Text>
-      </TouchableOpacity>
-    </View>
+          <TouchableOpacity style={styles.button} onPress={handleReset}>
+            <Text style={styles.buttonText}>Enviar</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </ImageBackground>
+    </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 10 },
-  subtitle: { fontSize: 14, color: '#555', marginBottom: 20, textAlign: 'center' },
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#001F54',
+  },
+  background: {
+    flex: 1,
+  },
+  container: {
+    padding: 20,
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 30,
+    textAlign: 'center',
+  },
   input: {
-    width: '100%',
-    padding: 12,
+    backgroundColor: '#002244',
+    color: '#fff',
+    borderRadius: 10,
+    padding: 14,
+    marginBottom: 15,
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 10,
-    marginBottom: 16
   },
   button: {
-    backgroundColor: '#004d40',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    backgroundColor: '#B00020',
+    padding: 14,
     borderRadius: 10,
-    width: '100%'
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 20,
   },
-  buttonText: { color: 'white', textAlign: 'center', fontWeight: 'bold' }
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
 });
+
+export default ForgotPasswordScreen;
